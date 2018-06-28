@@ -5,7 +5,7 @@ The contents of this repository strictly abides by the <i>Stanford Honor Code</i
 Current CS106B students should <b>NOT</b> look at any of the codes <b>AT ALL</b>. <br />
 Conceptual helps obtained through this repository should be clearly <b>CITED</b>.
 ## Contents
-For the assignment descriptions and conceptual help, click on the link below. <br />
+For the assignment descriptions and/or conceptual helps, click on the link below. <br />
 <a href="assignments/hw1">Assignment 1: TBD</a> <br />
 <a href="assignments/hw2">Assignment 2: TBD</a> <br />
 <a href="assignments/hw3">Assignment 3: TBD</a> <br />
