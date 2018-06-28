@@ -9,8 +9,6 @@
  * cost due to needing to store an extra copy of the keys.
  * 
  * @author Marty Stepp
- * @version 2018/03/10
- * - added methods front, back
  * @version 2016/09/24
  * - refactored to use collections.h utility functions
  * @version 2016/09/22
@@ -108,15 +106,6 @@ public:
     LinkedHashMap& addAll(std::initializer_list<std::pair<KeyType, ValueType> > list);
 
     /*
-     * Method: back
-     * Usage: KeyType value = map.back();
-     * ------------------------------------
-     * Returns the last key in the map in the order established by the
-     * <code>foreach</code> macro.  If the map is empty, generates an error.
-     */
-    KeyType back() const;
-
-    /*
      * Method: clear
      * Usage: map.clear();
      * -------------------
@@ -141,15 +130,6 @@ public:
      * key/value pairs, and <code>false</code> otherwise.
      */
     bool equals(const LinkedHashMap& map2) const;
-
-    /*
-     * Method: front
-     * Usage: KeyType value = map.front();
-     * -------------------------------------
-     * Returns the first key in the map in the order established by the
-     * <code>foreach</code> macro.  If the map is empty, generates an error.
-     */
-    KeyType front() const;
 
     /*
      * Method: get
@@ -488,14 +468,6 @@ LinkedHashMap<KeyType, ValueType>& LinkedHashMap<KeyType, ValueType>::addAll(
 }
 
 template <typename KeyType, typename ValueType>
-KeyType LinkedHashMap<KeyType, ValueType>::back() const {
-    if (isEmpty()) {
-        error("LinkedHashMap::back: map is empty");
-    }
-    return keyVector.back();
-}
-
-template <typename KeyType, typename ValueType>
 void LinkedHashMap<KeyType, ValueType>::clear() {
     innerMap.clear();
     keyVector.clear();
@@ -509,14 +481,6 @@ bool LinkedHashMap<KeyType, ValueType>::containsKey(const KeyType& key) const {
 template <typename KeyType, typename ValueType>
 bool LinkedHashMap<KeyType, ValueType>::equals(const LinkedHashMap<KeyType, ValueType>& map2) const {
     return stanfordcpplib::collections::equalsMap(*this, map2);
-}
-
-template <typename KeyType, typename ValueType>
-KeyType LinkedHashMap<KeyType, ValueType>::front() const {
-    if (isEmpty()) {
-        error("LinkedHashMap::front: map is empty");
-    }
-    return keyVector.front();
 }
 
 template <typename KeyType, typename ValueType>
