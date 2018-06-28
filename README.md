@@ -13,7 +13,7 @@ For the assignment descriptions and/or conceptual helps, click on the link below
 <a href="assignments/hw5">Assignment 5: MiniBrowser</a> <br />
 <a href="assignments/hw6">Assignment 6: Graphs</a>
 ## Codes
-Current CS106B students should <b><i> NEVER </i></b> directly look at the code, per Stanford Honor Code. <br />
+Current CS106B students should <b><i> NEVER </i></b> directly look at the code, per <i>Stanford Honor Code</i>. <br />
 Usages of the codes outside the CS106B course abides by the MIT license. <br />
 <a href="codes/hw1">Assignment 1: Game of Life</a> <br />
 <a href="codes/hw2">Assignmnet 2: ADTs</a> <br />
