@@ -13,6 +13,16 @@
 #include "simpio.h"
 using namespace std;
 
+void welcomePrint(){
+    cout << "Welcome to the CS 106B/X Game of Life!" << endl;
+    cout << "This program simulates the lifecycle of a bacterial colony." << endl;
+    cout << "Cells (X) live and die by the following rules:" << endl;
+    cout << "* A cell with 1 or fewer neighbors dies." << endl;
+    cout << "* Locations with 2 neighbors remain stable." << endl;
+    cout << "* Locations with 3 neighbors will create life." << endl;
+    cout << "* A cell with 4 or more neighbors dies." << endl;
+}
+
 int surCell(const Grid<bool> &cells, int row, int col) {
     int count = 0; //Count for living cells
     if (!cells.inBounds(row, col)) {
@@ -31,8 +41,8 @@ int surCell(const Grid<bool> &cells, int row, int col) {
 
 Grid<bool> calNextGen(const Grid<bool> &currentGen){
     Grid<bool> nextGen(currentGen.numRows, currentGen.numCols);//Defining empty grid to store info of next gen.
-    for(int r = 0 ; r < currentGen.numRows ; r++) {
-        for(int c = 0 ; c < currentGen.numCols ; c++) {
+    for(int r = 0 ; r < currentGen.numRows() ; r++) {
+        for(int c = 0 ; c < currentGen.numCols() ; c++) {
             switch(surCell(currentGen, r, c)){
                 case 2:
                     nextGen[r][c] = currentGen[r][c];
@@ -46,20 +56,28 @@ Grid<bool> calNextGen(const Grid<bool> &currentGen){
     return nextGen;
 }
 
+void printGen(const Grid<bool> &grid) {
+    for(int r = 0 ; r < grid.numRows() ; r++) {
+        for(int c = 0 ; c < grid.numCols() ; c++) {
+            if (grid[r][c]) {
+                cout << "X";
+            } else {
+                cout << "-";
+            }
+        }
+        cout<<endl;
+    }
+}
+
 void animate(const Grid<bool> &currentGen) {
+    clearConsole();
 
 }
 
 int main() {
-    int row, col; //Number of rows & columns in the grid.
+    int numRow, numCol; //Number of rows & columns in the grid.
 
-    cout << "Welcome to the CS 106B/X Game of Life!" << endl;
-    cout << "This program simulates the lifecycle of a bacterial colony." << endl;
-    cout << "Cells (X) live and die by the following rules:" << endl;
-    cout << "* A cell with 1 or fewer neighbors dies." << endl;
-    cout << "* Locations with 2 neighbors remain stable." << endl;
-    cout << "* Locations with 3 neighbors will create life." << endl;
-    cout << "* A cell with 4 or more neighbors dies." << endl;
+    welcomePrint();
 
     ifstream infile;
     promptUserForFile(infile, "Grid input file name?"); //Opening input file
@@ -89,6 +107,7 @@ int main() {
                 int rounds = getInteger("How many frames?");
                 for(int i = 0 ; i < rounds ; i++) {
                     animate(life);                    
+                    pause(100);
                 }
         }
         interact = getLine("a)nimate, t)ick, q)uit?");
