@@ -7,7 +7,7 @@
  *
  * Advanced Version with Extra Features
  * including: Random generate first generation
- *
+ *            Support more input
  */
 
 #include <iostream>
@@ -39,6 +39,9 @@ Grid<bool> fileRead();
 
 Grid<bool> randGen();
 //Generate random initial generation
+
+char order(string in);
+//turns all input into a, t, or q
 
 void game(bool random);
 //Main funtion to play the game
@@ -204,6 +207,21 @@ Grid<bool> randGen() {
     return life;
 }
 
+char order(string in){
+    if (in == "animate" || in == "Animate" || in == "ANIMATE" || in == "a)nimate"
+            || in == "a" || in == "A") {
+        return 'a';
+    } else if (in == "tick" || in == "Tick" || in == "TICK" || in == "t)ick"
+               || in == "t" || in == "T") {
+        return 't';
+    } else if (in == "quit" || in == "Quit" || in == "QUIT" || in == "q)uit"
+               || in == "q" || in == "Q") {
+        return 'q';
+    } else {
+        return 'e';
+    }
+}
+
 void game(bool random) {
     Grid<bool> life;
 
@@ -217,12 +235,12 @@ void game(bool random) {
 
     string interact = getLine("a)nimate, t)ick, q)uit?");
 
-    while(interact != "q" && interact != "Q") {
-        if (interact == "t" || interact == "T") {
+    while(order(interact) != 'q') {
+        if (order(interact) == 't') {
             life = calNextGen(life);
             printGen(life);
             paintGen(life);
-        } else if (interact == "a" || interact == "A") {
+        } else if (order(interact) == 'a') {
             int rounds = getInteger("How many frames?");
             for(int i = 0 ; i < rounds ; i++) {
                 pause(100);
