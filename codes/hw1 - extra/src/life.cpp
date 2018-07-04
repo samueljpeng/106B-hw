@@ -233,14 +233,14 @@ void game(bool random) {
     printGen(life);
     paintGen(life);
 
-    string interact = getLine("a)nimate, t)ick, q)uit?");
+    char interact = order(getLine("a)nimate, t)ick, q)uit?"));
 
-    while(order(interact) != 'q') {
-        if (order(interact) == 't') {
+    while(interact != 'q') {
+        if (interact == 't') {
             life = calNextGen(life);
             printGen(life);
             paintGen(life);
-        } else if (order(interact) == 'a') {
+        } else if (interact == 'a') {
             int rounds = getInteger("How many frames?");
             for(int i = 0 ; i < rounds ; i++) {
                 pause(100);
@@ -252,6 +252,6 @@ void game(bool random) {
         } else {
             cout << "Invalid choice; please try again." << endl;
         }
-        interact = getLine("a)nimate, t)ick, q)uit?");
+        interact = order(getLine("a)nimate, t)ick, q)uit?"));
     }
 }
