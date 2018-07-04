@@ -185,7 +185,6 @@ void game() {
                 life = calNextGen(life);
                 printGen(life);
                 paintGen(life);
-                //cout << endl;
             }
         } else {
             cout << "Invalid choice; please try again." << endl;
