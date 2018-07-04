@@ -6,12 +6,19 @@
  * Date: 07/05/2018
  *
  * Advanced Version with Extra Features
- * including: Random generate first generation (line 40 -> line 56 -> line 185-208)
- *            Support more input (line 43 -> line 210-223 -> line 236)
+ * including: Random generate first generation (line 53 -> line 69 -> line 248-271)
+ *            Support more input (line 56 -> line 273-286 -> line 299)
+ *            GUI: Color gets darker the more generations a cell lives.
+ *                 (line 32&38&41 -> line 93-113 -> line 158-190 -> line 210)
+ *                 Changed grid type from bool (to save memory) to int, which saves the age of a cell
+ *                 (how many generations it has lived), its positivity represents if it's alive or dead.
+ *                 Only works with modified lifegui.cpp & lifegui.h
  */
 
 #include <iostream>
 #include <fstream>
+#include <cmath>
+#include <string>
 #include "filelib.h"
 #include "console.h"
 #include "grid.h"
@@ -22,22 +29,28 @@ using namespace std;
 void welcomePrint();
 //Printing initial lines of information
 
-Grid<bool> calNextGen(const Grid<bool> &currentGen);
+Grid<int> calNextGen(const Grid<int> &currentGen);
 //Calculate the next generation of the given gen.
 
-int surCell(const Grid<bool> &cells, int row, int col);
+int surCell(const Grid<int> &cells, int row, int col);
 //Calculates number of surrounding living cells
 
-void printGen(const Grid<bool> &grid);
+string decToHex(int decimal);
+//Convert decimal to hexadecimal
+
+string getColor(int age);
+//Get the color for the corresponding age
+
+void printGen(const Grid<int> &grid);
 //Print the given generation
 
-void printGen(const Grid<bool> &grid);
+void paintGen(const Grid<int> &grid);
 //Paint the given generation to GUI
 
-Grid<bool> fileRead();
+Grid<int> fileRead();
 //Read initial information from file
 
-Grid<bool> randGen();
+Grid<int> randGen();
 //Generate random initial generation
 
 char order(string in);
@@ -73,18 +86,27 @@ void welcomePrint(){
     cout << endl;
 }
 
-Grid<bool> calNextGen(const Grid<bool> &currentGen) {
-    Grid<bool> nextGen(currentGen.numRows(), currentGen.numCols());
+Grid<int> calNextGen(const Grid<int> &currentGen) {
+    Grid<int> nextGen(currentGen.numRows(), currentGen.numCols());
     //Defining empty grid to store info of next gen.
 
     for(int r = 0 ; r < currentGen.numRows() ; r++) {
         for(int c = 0 ; c < currentGen.numCols() ; c++) {
             if(surCell(currentGen, r, c) == 2) {
-                nextGen[r][c] = currentGen[r][c];
+                //stays the current status
+                if (currentGen[r][c] > 0) {
+                    nextGen[r][c] = currentGen[r][c] + 1;
+                    //if its alive, its age increse by one
+                } else {
+                    nextGen[r][c] = currentGen[r][c];
+                    //if its dead, it stays dead
+                }
             } else if (surCell(currentGen, r, c) == 3) {
-                nextGen[r][c] = true;
+                nextGen[r][c] = abs(currentGen[r][c]) + 1;
+                //it turns alive, and age increase by one
             } else {
-                nextGen[r][c] = false;
+                nextGen[r][c] = -(abs(currentGen[r][c]));
+                //it becomes dead
                 //includes cases when surCell = 0, 1, or 4+
             }
         }
@@ -93,7 +115,7 @@ Grid<bool> calNextGen(const Grid<bool> &currentGen) {
     return nextGen;
 }
 
-int surCell(const Grid<bool> &cells, int row, int col) {
+int surCell(const Grid<int> &cells, int row, int col) {
     int count = 0;
     //Count for living cells
 
@@ -120,18 +142,57 @@ int surCell(const Grid<bool> &cells, int row, int col) {
                 cCol = c;
             }
 
-            count += cells[cRow][cCol];
+            if(cells[cRow][cCol] > 0) {
+                count++;
+            }
         }
     }
 
-    count -= cells[row][col]; //Deducting the value of the center cell
+    if(cells[row][col] > 0) {
+        count--;
+    }
+
     return count;
 }
 
-void printGen(const Grid<bool> &grid) {
+string decToHex(int decimal) {
+    if (decimal <  10) {
+        return "0" + to_string(decimal);
+    } else if (decimal < 16) {
+        switch (decimal) {
+            case 10:
+                return "0A";
+            case 11:
+                return "0B";
+            case 12:
+                return "0C";
+            case 13:
+                return "0D";
+            case 14:
+                return "0E";
+             case 15:
+                return "0F";
+        }
+    } else {
+        return decToHex(decimal / 16).substr(1,1) + decToHex(decimal % 16).substr(1,1);
+    }
+    return "00";
+}
+
+string getColor(int age) {
+    if (age > 100) {
+        return "#9A0000";
+    } else {
+        int r = 255 - age;
+        int gb = 202 - 2 * age;
+        return "#" + decToHex(r) + decToHex(gb) + decToHex(gb);
+    }
+}
+
+void printGen(const Grid<int> &grid) {
     for(int r = 0 ; r < grid.numRows() ; r++) {
         for(int c = 0 ; c < grid.numCols() ; c++) {
-            if (grid[r][c]) {
+            if (grid[r][c] > 0) {
                 cout << "X";
             } else {
                 cout << "-";
@@ -141,19 +202,19 @@ void printGen(const Grid<bool> &grid) {
     }
 }
 
-void paintGen(const Grid<bool> &grid) {
+void paintGen(const Grid<int> &grid) {
     LifeGUI::clear();
     for(int r = 0 ; r < grid.numRows() ; r++) {
         for(int c = 0 ; c < grid.numCols() ; c++) {
-            if (grid[r][c]) {
-                LifeGUI::fillCell(r, c);
+            if (grid[r][c] > 0) {
+                LifeGUI::fillCell(r, c, getColor(grid[r][c]));
             }
         }
     }
     LifeGUI::repaint();
 }
 
-Grid<bool> fileRead() {
+Grid<int> fileRead() {
     int numRow, numCol; //Number of rows & columns in the grid.
 
     ifstream infile;
@@ -164,7 +225,7 @@ Grid<bool> fileRead() {
     LifeGUI::clear();
     LifeGUI::repaint();
 
-    Grid<bool> life(numRow, numCol); //Declaring main grid
+    Grid<int> life(numRow, numCol); //Declaring main grid
     char tempInput; //char for inputing from file
 
     infile.get(tempInput); //Input the linebreak
@@ -177,12 +238,14 @@ Grid<bool> fileRead() {
         infile.get(tempInput);//input the linebreak
     }
 
+    cout<<life;
+
     infile.close(); //Closing input file
 
     return life;
 }
 
-Grid<bool> randGen() {
+Grid<int> randGen() {
     int numRow, numCol;
     //Number of rows & columns in the grid.
 
@@ -196,7 +259,7 @@ Grid<bool> randGen() {
     LifeGUI::clear();
     LifeGUI::repaint();
 
-    Grid<bool> life(numRow, numCol);
+    Grid<int> life(numRow, numCol);
 
     for(int r = 0 ; r < numRow ; r++) {
         for(int c = 0 ; c < numCol ; c++) {
@@ -223,7 +286,7 @@ char order(string in){
 }
 
 void game(bool random) {
-    Grid<bool> life;
+    Grid<int> life;
 
     if (random) {
         life = randGen();
