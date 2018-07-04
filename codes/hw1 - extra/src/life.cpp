@@ -6,8 +6,8 @@
  * Date: 07/05/2018
  *
  * Advanced Version with Extra Features
- * including: Random generate first generation
- *            Support more input
+ * including: Random generate first generation (line 40 -> line 56 -> line 185-208)
+ *            Support more input (line 43 -> line 210-223 -> line 236)
  */
 
 #include <iostream>
