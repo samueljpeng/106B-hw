@@ -68,13 +68,13 @@ void LifeGUI::clear() {
                          upperLeftX + c * cellDiameter,
                          upperLeftY + rows * cellDiameter - 1);
     }
-    window->setColor("black");
+    //window->setColor("black");
 }
 
 /*
  *
  */
-void LifeGUI::fillCell(int row, int col) {
+void LifeGUI::fillCell(int row, int col, std::string color) {
     if (!isEnabled) {
         return;
     }
@@ -82,6 +82,7 @@ void LifeGUI::fillCell(int row, int col) {
     if (row < 0 || row >= rows || col < 0 || col >= cols) {
         error("LifeGUI::fillCell illegal row/col");
     }
+    window->setColor(color);
     window->fillOval(upperLeftX + col * cellDiameter + 1,
                      upperLeftY + row * cellDiameter + 1,
                      cellDiameter - 2,
