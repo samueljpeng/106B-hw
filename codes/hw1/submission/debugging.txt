@@ -1,7 +1,0 @@
-As we thought we finished the problem and running the "glider.txt" test file, it turns out our output didn't match with the given during the animation part. In our program, after about 50 frames into the animation, when the gliding cells touched the bottom edge of the screen, all the cells died, whereas in the given output file, the cells kept gliding. So we determined that we have a bug in the program.
-
-Since the program worked fine before the cells touch the edge of the screen, and it is about whether the cells live or die, we figured that the location of the bug would be around the function of the program which determines if a given cell lives or dies in the next generation, i.e. the function that counts the surrounding cells.
-
-After locating the function the bug is in, we went through the function, and noticed that while counting surrounding cells, we did not consider the edge scenario in our codes, i.e. we didn't count the first row adjacent to the last row, or the first column adjacent to the last column.
-
-To solve the problem, we added two variables for the row and column that we're counting, and counted the top row adjacent to the bottom row, and left-most column adjacent to the right-most column. Then the program works exactly like the given example output.
