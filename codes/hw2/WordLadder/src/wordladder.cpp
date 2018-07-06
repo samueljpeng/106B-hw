@@ -7,6 +7,7 @@
  *
  * Basic version without extra features
  */
+
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -62,13 +63,19 @@ string game(const Set<string> &dic, string from, string to) {
         for(int i = 0 ; i < qSize ; i++) {
             Stack<string> current = solve.dequeue();
             string lastWord = current.peek();
-
+            Set<string> cont = {};
+            int cSize = current.size();
+            for(int t = 0 ; t < cSize ; t++) {
+                string temp = current.pop();
+                cont.add(temp);
+                current.push(temp);
+            }
             for(int c = 0 ; c < lastWord.length() ; c++) {
                 for(int a = 97 ; a < 123 ; a++) {
                     string newWord = lastWord;
                     //string alpha = char(a);
                     newWord.replace(c, 1, 1, char(a));
-                    if(!(newWord == lastWord) && dic.contains(newWord)) {
+                    if(dic.contains(newWord) && !cont.contains(newWord)) {
                         if (newWord == from) {
                             //Found the path
                             current.push(newWord);
@@ -84,25 +91,8 @@ string game(const Set<string> &dic, string from, string to) {
                     }
                 }
             }
-            //cout<<current<<endl;
-            /*for(string word : dic) {
-                if(nextStep(current.peek(), word)) {
-                    if (word == from) {
-                        //Found the path
-                        current.push(word);
-                        for(string path : current) {
-                            ladder += path;
-                            ladder += " ";
-                        }
-                        return ladder;
-                    }
-                    current.push(word);
-                    solve.enqueue(current);
-                    current.pop();
-                }
-            }*/
         }
-        //cout<<solve<<endl;
+        //cout << solve << endl << endl;
     }
     return "NA";
 }
@@ -122,6 +112,7 @@ void interact() {
 
     while (1) {
         string fromWord, toWord;
+        cout << endl;
 
         fromWord = getLine("Word 1 (or Enter to quit): ");
         if (fromWord == "") break;
@@ -132,27 +123,27 @@ void interact() {
         transform(toWord.begin(), toWord.end(), toWord.begin(), ::tolower);
 
         if(lengthCheck(fromWord, toWord)) {
-            cout << "The two words must be the same length." << endl << endl;
+            cout << "The two words must be the same length." << endl;
             continue;
         } else if (dictCheck(dict, fromWord, toWord)) {
-            cout << "The two words must be found in the dictionary." << endl << endl;
+            cout << "The two words must be found in the dictionary." << endl;
             continue;
         } else if (wordCheck(fromWord, toWord)) {
-            cout << "The two words must be different." << endl << endl;
+            cout << "The two words must be different." << endl;
             continue;
         } else {
             time_t time0;
             time(&time0);
             string gameResult = game(dict, fromWord, toWord);
             if (gameResult == "NA") {
-                cout << "No word ladder found from " << toWord << " back to " << fromWord << "." << endl << endl;
+                cout << "No word ladder found from " << toWord << " back to " << fromWord << "." << endl;
             } else {
                 cout << "A ladder from " << toWord << " back to " << fromWord << ":" << endl;
-                cout << gameResult << endl << endl;
+                cout << gameResult << endl;
             }
             time_t time1;
             time(&time1);
-            cout<<"This process used " << difftime(time1, time0) << " seconds." << endl << endl;
+            cout<<"This process used " << difftime(time1, time0) << " seconds." << endl;
         }
     }
 }
