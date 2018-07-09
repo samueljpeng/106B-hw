@@ -21,7 +21,7 @@
 using namespace std;
 
 Map<Queue<string>, Vector<string>> doc; //Storing the document
-int n; //N-Gram
+int n;  //Storing the document
 
 void welcomePrint();
 //Printing welcome information

@@ -6,7 +6,7 @@
  * Date: 07/11/2018
  *
  * Advanced version with extra features:
- * Complete sentences.
+ *      Complete sentences. (Function ended(Line 66-70), Line 155-165)
  */
 #include <iostream>
 #include <fstream>
@@ -21,18 +21,23 @@
 #include "console.h"
 using namespace std;
 
-Map<Queue<string>, Vector<string>> doc;
-int n;
+Map<Queue<string>, Vector<string>> doc; //Storing the document
+int n;  //Storing the document
 
 void welcomePrint();
+//Printing welcome information
 
 string nextWord(const Vector<string> &lib);
+//returns the next word base on possibility
 
 bool ended(string word);
+//Detect if the given word is the end of sentence
 
-void getinfo();
+void getInfo();
+//Get information from user. Input
 
-void game();
+void interact();
+//Main functionalities
 
 int main() {
 
@@ -54,6 +59,7 @@ void welcomePrint() {
 }
 
 string nextWord(const Vector<string> &lib) {
+    //Return the next word randomly chosen based on possibility
     return lib[rand() % lib.size()];
 }
 
@@ -73,6 +79,8 @@ void getInfo() {
     string savedWords[n - 1];
     int index = 0;
     Queue<string> preWords;
+
+    //Processing document word by word
     while(infile >> word) {
         if (index < n - 1) {
             savedWords[index] = word;
@@ -119,22 +127,32 @@ void interact() {
             cout << "Must be at least" << n << "words."<< endl << endl;
         } else {
             Queue<string> startKey;
+
+            //Randomly generate startKey
+            //Repeat until the begining of the word is Upper Case
             do {
                 startKey = doc.keys().get(rand() % doc.size());
-            } while (toUpperCase(startKey.peek().substr(0, 1)) != startKey.peek().substr(0, 1));
+            } while (toLowerCase(startKey.peek().substr(0, 1)) == startKey.peek().substr(0, 1));
+
             cout << startKey.peek() << " ";
             startKey.enqueue(startKey.dequeue());
+
+            //printing start key contents
             for(int i = 0 ; i < n - 2 ; i++) {
                 cout << startKey.peek() << " ";
                 startKey.enqueue(startKey.dequeue());
             }
+
             string nextWd;
+            //Generating paragraph word by word
             for(int i = 0 ; i < gen - n + 1 ; i++) {
                 nextWd = nextWord(doc[startKey]);
                 cout << nextWd << " " ;
                 startKey.enqueue(nextWd);
                 startKey.dequeue();
             }
+
+            //After the given amount of words. If not ended, continue.l
             if(!ended(nextWd)) {
                 do {
                     nextWd = nextWord(doc[startKey]);
