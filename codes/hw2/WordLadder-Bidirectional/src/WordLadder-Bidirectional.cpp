@@ -167,39 +167,35 @@ void generateLadder(Queue<Stack<string>> &revSolve, Stack<string> &cur, const st
 }
 
 void BFS(const Set<string> &dictionary, Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> &level, string &ladder, bool side) {
-    int qSize = solve.size(); //Size of the Queue
+    Stack<string> current = solve.dequeue(); //Get item from Queue
+    string lastWord = current.peek(); //Peek the top word of the current Stack
+    Set<string> cont = {}; //To store words already contained in the Stack
+    int cSize = current.size(); //size of the current Stack
 
-    for(int i = 0 ; i < qSize ; i++) { //Loop through the Queue
-        Stack<string> current = solve.dequeue(); //Get item from Queue
-        string lastWord = current.peek(); //Peek the top word of the current Stack
-        Set<string> cont = {}; //To store words already contained in the Stack
-        int cSize = current.size(); //size of the current Stack
+    //Add all the items of the Stack to the Set 'cont'
+    for(int t = 0 ; t < cSize ; t++) {
+        string temp = current.pop();
+        cont.add(temp);
+        current.push(temp);
+    }
 
-        //Add all the items of the Stack to the Set 'cont'
-        for(int t = 0 ; t < cSize ; t++) {
-            string temp = current.pop();
-            cont.add(temp);
-            current.push(temp);
-        }
+    //Listing all possible 'nextWords'
+    for(int c = 0 ; c < lastWord.length() ; c++) {
+        for(int a = 97 ; a < 123 ; a++) {
+            string newWord = lastWord;
+            newWord.replace(c, 1, 1, char(a));
+            //replacing the c-th character of the word to char(a) (by ascii)
 
-        //Listing all possible 'nextWords'
-        for(int c = 0 ; c < lastWord.length() ; c++) {
-            for(int a = 97 ; a < 123 ; a++) {
-                string newWord = lastWord;
-                newWord.replace(c, 1, 1, char(a));
-                //replacing the c-th character of the word to char(a) (by ascii)
-
-                if(dictionary.contains(newWord) && !cont.contains(newWord)) {
-                    //new word is a valid word
-                    if (level.contains(newWord)) {
-                        //shortest ladder found
-                        generateLadder(rSolve, current, newWord, ladder, side);
-                        return;
-                    }
-                    current.push(newWord); //Add the valid word to the current stack
-                    solve.enqueue(current); //Add the stack back into the back of the queue
-                    current.pop(); //Remove the word from the stack
+            if(dictionary.contains(newWord) && !cont.contains(newWord)) {
+                //new word is a valid word
+                if (level.contains(newWord)) {
+                    //shortest ladder found
+                    generateLadder(rSolve, current, newWord, ladder, side);
+                    return;
                 }
+                current.push(newWord); //Add the valid word to the current stack
+                solve.enqueue(current); //Add the stack back into the back of the queue
+                current.pop(); //Remove the word from the stack
             }
         }
     }

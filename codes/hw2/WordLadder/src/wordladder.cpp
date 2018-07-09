@@ -38,60 +38,52 @@ bool wordCheck(string from, string to) {
     return from == to;
 }
 
-bool nextStep(string from, string to) {
-    if (lengthCheck(from, to)) return false;
-    bool diff = false;
-    for(int i = 0 ; i < from.length() ; i++) {
-        if (from[i] != to[i] && diff == false) {
-            diff = true;
-        } else if (from[i] != to[i] && diff == true) {
-            return false;
-        }
-    }
-    return diff;
-}
-
 string game(const Set<string> &dic, string from, string to) {
     Queue<Stack<string>> solve;
+    //Main Queue saving the process of BFS
 
-    string ladder = "";
+    string ladder = ""; //Result string to return
 
-    solve.add({to});
+    solve.add({to}); //Initialize solve Queue
 
     while(!solve.isEmpty()){
-        int qSize = solve.size();
-        for(int i = 0 ; i < qSize ; i++) {
-            Stack<string> current = solve.dequeue();
-            string lastWord = current.peek();
-            Set<string> cont = {};
-            int cSize = current.size();
-            for(int t = 0 ; t < cSize ; t++) {
-                string temp = current.pop();
-                cont.add(temp);
-                current.push(temp);
-            }
-            for(int c = 0 ; c < lastWord.length() ; c++) {
-                for(int a = 97 ; a < 123 ; a++) {
-                    string newWord = lastWord;
-                    newWord.replace(c, 1, 1, char(a));
-                    if(dic.contains(newWord) && !cont.contains(newWord)) {
-                        if (newWord == from) {
-                            //Found the path
-                            current.push(newWord);
-                            for(string path : current) {
-                                ladder += path;
-                                ladder += " ";
-                            }
-                            return ladder;
-                        }
+        //Loop through the Queue
+        Stack<string> current = solve.dequeue(); //Get item from Queue
+        string lastWord = current.peek();//Peek the top word of the current Stack
+        Set<string> cont = {}; //To store words already contained in the Stack
+        int cSize = current.size();//size of the current Stack
+
+        //Add all the items of the Stack to the Set 'cont'
+        for(int t = 0 ; t < cSize ; t++) {
+            string temp = current.pop();
+            cont.add(temp);
+            current.push(temp);
+        }
+
+        //Listing all possible 'nextWords'
+        for(int c = 0 ; c < lastWord.length() ; c++) {
+            for(int a = 97 ; a < 123 ; a++) {
+                string newWord = lastWord;
+                newWord.replace(c, 1, 1, char(a));
+                //replacing the c-th character of the word to char(a) (by ascii)
+
+                if(dic.contains(newWord) && !cont.contains(newWord)) {
+                    //new word is a valid word
+                    if (newWord == from) {
+                        //Found the shortest ladder
                         current.push(newWord);
-                        solve.enqueue(current);
-                        current.pop();
+                        for(string path : current) {
+                            ladder += path;
+                            ladder += " ";
+                        }
+                        return ladder;
                     }
+                    current.push(newWord); //Add the valid word to the current stack
+                    solve.enqueue(current); //Add the stack back into the back of the queue
+                    current.pop(); //Remove the word from the stack
                 }
             }
         }
-        //cout << solve << endl << endl;
     }
     return "NA";
 }
@@ -131,8 +123,8 @@ void interact() {
             cout << "The two words must be different." << endl;
             continue;
         } else {
-            time_t time0;
-            time(&time0);
+            time_t time1;
+            time(&time1);
             string gameResult = game(dict, fromWord, toWord);
             if (gameResult == "NA") {
                 cout << "No word ladder found from " << toWord << " back to " << fromWord << "." << endl;
@@ -140,9 +132,9 @@ void interact() {
                 cout << "A ladder from " << toWord << " back to " << fromWord << ":" << endl;
                 cout << gameResult << endl;
             }
-            time_t time1;
-            time(&time1);
-            cout<<"This process used " << difftime(time1, time0) << " seconds." << endl;
+            time_t time2;
+            time(&time2);
+            cout<<"It took "<<difftime(time2,time1)<<" seconds."<<endl;
         }
     }
 }
@@ -150,6 +142,13 @@ void interact() {
 int main() {
 
     welcomePrint();
+
+    //------TEMPORARY OUTPUT------
+    cout << "------TEMPORARY OUTPUT------"
+       << endl << "BASIC VERSION"
+       << endl << "----------------------------"
+       << endl;
+    //------TEMPORARY OUTPYT------
 
     interact();
 
