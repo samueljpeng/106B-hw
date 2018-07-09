@@ -11,7 +11,6 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-#include <ctime>
 #include "filelib.h"
 #include "set.h"
 #include "queue.h"
@@ -19,6 +18,34 @@
 #include "simpio.h"
 #include "console.h"
 using namespace std;
+
+void welcomePrint();
+//Printing the welcome information
+
+bool lengthCheck(string from, string to);
+//return true if the two given words are not of the same length
+
+bool dictCheck(const Set<string> &dict, string from, string to);
+//return true if either or both words don't exist in the dictionary
+
+bool wordCheck(string from, string to);
+//return true if both words are the same
+
+string game(const Set<string> &dic, string from, string to);
+//The function that does the main calculations
+
+void interact();
+//for interaction. Takes in inputs, calls the calculation function.
+
+int main() {
+
+    welcomePrint();
+
+    interact();
+
+    cout << "Have a nice day." << endl;
+    return 0;
+}
 
 void welcomePrint() {
     cout << "Welcome to CS 106B/X Word Ladder!" << endl;
@@ -43,6 +70,7 @@ string game(const Set<string> &dic, string from, string to) {
     //Main Queue saving the process of BFS
 
     string ladder = ""; //Result string to return
+    Set<string> cont = {to}; //To store words already contained in the Stack
 
     solve.add({to}); //Initialize solve Queue
 
@@ -50,15 +78,6 @@ string game(const Set<string> &dic, string from, string to) {
         //Loop through the Queue
         Stack<string> current = solve.dequeue(); //Get item from Queue
         string lastWord = current.peek();//Peek the top word of the current Stack
-        Set<string> cont = {}; //To store words already contained in the Stack
-        int cSize = current.size();//size of the current Stack
-
-        //Add all the items of the Stack to the Set 'cont'
-        for(int t = 0 ; t < cSize ; t++) {
-            string temp = current.pop();
-            cont.add(temp);
-            current.push(temp);
-        }
 
         //Listing all possible 'nextWords'
         for(int c = 0 ; c < lastWord.length() ; c++) {
@@ -79,6 +98,7 @@ string game(const Set<string> &dic, string from, string to) {
                         return ladder;
                     }
                     current.push(newWord); //Add the valid word to the current stack
+                    cont.add(newWord); //Add the valid word to 'visited' set
                     solve.enqueue(current); //Add the stack back into the back of the queue
                     current.pop(); //Remove the word from the stack
                 }
@@ -123,8 +143,6 @@ void interact() {
             cout << "The two words must be different." << endl;
             continue;
         } else {
-            time_t time1;
-            time(&time1);
             string gameResult = game(dict, fromWord, toWord);
             if (gameResult == "NA") {
                 cout << "No word ladder found from " << toWord << " back to " << fromWord << "." << endl;
@@ -132,26 +150,6 @@ void interact() {
                 cout << "A ladder from " << toWord << " back to " << fromWord << ":" << endl;
                 cout << gameResult << endl;
             }
-            time_t time2;
-            time(&time2);
-            cout<<"It took "<<difftime(time2,time1)<<" seconds."<<endl;
         }
     }
-}
-
-int main() {
-
-    welcomePrint();
-
-    //------TEMPORARY OUTPUT------
-    cout << "------TEMPORARY OUTPUT------"
-       << endl << "BASIC VERSION"
-       << endl << "----------------------------"
-       << endl;
-    //------TEMPORARY OUTPYT------
-
-    interact();
-
-    cout << "Have a nice day." << endl;
-    return 0;
 }
