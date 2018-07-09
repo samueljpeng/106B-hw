@@ -20,16 +20,20 @@
 #include "console.h"
 using namespace std;
 
-Map<Queue<string>, Vector<string>> doc;
-int n;
+Map<Queue<string>, Vector<string>> doc; //Storing the document
+int n; //N-Gram
 
 void welcomePrint();
+//Printing welcome information
 
 string nextWord(const Vector<string> &lib);
+//returns the next word base on possibility
 
-void getinfo();
+void getInfo();
+//Get information from user. Input
 
-void game();
+void interact();
+//Main functionalities
 
 int main() {
 
@@ -51,6 +55,7 @@ void welcomePrint() {
 }
 
 string nextWord(const Vector<string> &lib) {
+    //Return the next word randomly chosen based on possibility
     return lib[rand() % lib.size()];
 }
 
@@ -59,11 +64,17 @@ void getInfo() {
     promptUserForFile(infile, "Input file name?");
 
     n = getInteger("Value of N?");
+    while (n <= 1) {
+        cout << "N must be 2 or greater." << endl;
+        n = getInteger("Value of N: ");
+    }
 
     string word;
     string savedWords[n - 1];
     int index = 0;
     Queue<string> preWords;
+
+    //Processing document word by word
     while(infile >> word) {
         if (index < n - 1) {
             savedWords[index] = word;
@@ -110,18 +121,25 @@ void interact() {
             cout << "Must be at least" << n << "words."<< endl << endl;
         } else {
             Queue<string> startKey = doc.keys().get(rand() % doc.size());
+            //Randonly generate startKey
+
             cout << "... " << startKey.peek() << " ";
             startKey.enqueue(startKey.dequeue());
+
+            //printing start key contents
             for(int i = 0 ; i < n - 2 ; i++) {
                 cout << startKey.peek() << " ";
                 startKey.enqueue(startKey.dequeue());
             }
+
+            //Generating paragraph word by word
             for(int i = 0 ; i < gen - n + 1 ; i++) {
                 string nextWd = nextWord(doc[startKey]);
                 cout << nextWd << " " ;
                 startKey.enqueue(nextWd);
                 startKey.dequeue();
             }
+
             cout << "..." << endl << endl;
         }
 
