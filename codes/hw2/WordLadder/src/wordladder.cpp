@@ -42,9 +42,9 @@ bool nextStep(string from, string to) {
     if (lengthCheck(from, to)) return false;
     bool diff = false;
     for(int i = 0 ; i < from.length() ; i++) {
-        if(from[i] != to[i] && diff == false) {
+        if (from[i] != to[i] && diff == false) {
             diff = true;
-        } else if(from[i] != to[i] && diff == true) {
+        } else if (from[i] != to[i] && diff == true) {
             return false;
         }
     }
@@ -73,7 +73,6 @@ string game(const Set<string> &dic, string from, string to) {
             for(int c = 0 ; c < lastWord.length() ; c++) {
                 for(int a = 97 ; a < 123 ; a++) {
                     string newWord = lastWord;
-                    //string alpha = char(a);
                     newWord.replace(c, 1, 1, char(a));
                     if(dic.contains(newWord) && !cont.contains(newWord)) {
                         if (newWord == from) {

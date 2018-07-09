@@ -116,7 +116,7 @@ void interact() {
         if (!(gen > 0)) {
             cout << "Invalid input." << endl << endl;
         } else if (gen - n + 1 < 0) {
-            cout << "Length too short!" << endl << endl;
+            cout << "Must be at least" << n << "words."<< endl << endl;
         } else {
             Queue<string> startKey;
             do {
