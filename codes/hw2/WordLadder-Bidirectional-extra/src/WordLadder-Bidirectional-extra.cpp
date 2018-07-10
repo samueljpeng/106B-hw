@@ -6,11 +6,11 @@
  * Date: 07/11/2018
  *
  * Advanced version with extra features including:
- *      allows adding or removing a letter as a step (Linve 82-98, Line 185-223)
- *      allows end-points to be one step away from dictionary words (Line 103 -> function oneStep (Line 71-100), line 273)
+ *      allows adding or removing a letter as a step (Linve 74-90, Line 183-221)
+ *      allows end-points to be one step away from dictionary words (Line 96 -> function oneStep (Line 62-92), line 279)
  *
- * This program takes a slightly different approach comparing to the given pseudocode.
- * It uses a bidirectional BFS to find the path (Line 237-243 -> function BFS)
+ * This program takes a slightly different approach comparing to the given pseudocode as an optimization.
+ * It uses bidirectional BFS to find the path (Line 235-243 -> function BFS (Line 155 - 222))
  */
 
 #include <iostream>
@@ -24,30 +24,31 @@
 #include "console.h"
 using namespace std;
 
+Set<string> dict; //Saving all words from dictionary
+
 void welcomePrint();
-//Printing the welcome information
+
+bool oneStep(const Set<string> &dic, const string &str);
 
 bool dictCheck(const Set<string> &dict, const string &from, const string &to);
-//return true if either or both words is more than one step from dictionary word
 
 bool wordCheck(const string &from, const string &to);
-//return true if both words are the same
 
 void generateLadder(Queue<Stack<string>> &revSolve, Stack<string> &cur, const string &midWord, string &ladder, bool side);
-//Generate the string 'ladder' to print out
 
 void BFS(const Set<string> &dictionary, Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> &level, string &ladder, bool side);
-//Breadth-First Search function of the given side
 
 string game(const Set<string> &dic, const string &from, const string &to);
-//The function that does the main calculations
+
+void file_read();
 
 void interact();
-//for interaction. Takes in inputs, calls the calculation function.
 
 int main() {
 
     welcomePrint();
+
+    file_read();
 
     interact();
 
@@ -56,19 +57,21 @@ int main() {
 }
 
 void welcomePrint() {
+    //Printing the welcome information
     cout << "Welcome to CS 106B/X Word Ladder!" << endl;
     cout << "Please give me two English words, and I will convert the" << endl;
     cout << "first into the second by modifying one letter at a time." << endl << endl;
 }
 
-bool oneStep(const Set<string> &dic, const string &str) {
+bool oneStep(const string &str) {
     //Listing all possible 'nextWords'
+
     for(int c = 0 ; c < str.length() ; c++) {
         for(int a = 97 ; a < 123 ; a++) {
             string newWord = str;
             newWord.replace(c, 1, 1, char(a));
             //replacing the c-th character of the word to char(a) (by ascii)
-            if(dic.contains(newWord)) return true;
+            if(dict.contains(newWord)) return true;
         }
     }
 
@@ -78,7 +81,7 @@ bool oneStep(const Set<string> &dic, const string &str) {
             string newWord = str;
             newWord.insert(c, 1, char(a));
             //inserting at the c-th character of the word, char(a) (by ascii)
-            if(dic.contains(newWord)) return true;
+            if(dict.contains(newWord)) return true;
         }
     }
 
@@ -87,20 +90,24 @@ bool oneStep(const Set<string> &dic, const string &str) {
         string newWord = str;
         newWord.erase(c, 1);
         //deleting the c-th character of the word
-        if(dic.contains(newWord)) return true;
+        if(dict.contains(newWord)) return true;
     }
     return false;
 }
 
-bool dictCheck(const Set<string> &dict, const string &from, const string &to) {
-    return !((oneStep(dict, from) || dict.contains(from)) && (oneStep(dict, to) || dict.contains(to)));
+bool dictCheck(const string &from, const string &to) {
+    //return true if either or both words is more than one step from dictionary word
+    return !((oneStep(from) || dict.contains(from)) && (oneStep(to) || dict.contains(to)));
 }
 
 bool wordCheck(const string &from, const string &to) {
+    //return true if both words are the same
     return from == to;
 }
 
 void generateLadder(Queue<Stack<string>> &revSolve, Stack<string> &cur, const string &midWord, string &ladder, bool side) {
+    //Generate the string 'ladder' to print out
+
     if (side) {
         //Ladder found with solveFront & toLevel
 
@@ -149,7 +156,9 @@ void generateLadder(Queue<Stack<string>> &revSolve, Stack<string> &cur, const st
     }
 }
 
-void BFS(const Set<string> &dictionary, Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> &myLevel, Set<string> &level, string &ladder, bool side) {
+void BFS(Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> &myLevel, Set<string> &level, string &ladder, bool side) {
+    //Breadth-First Search function of the given side
+
     Stack<string> current = solve.dequeue(); //Get item from Queue
     string lastWord = current.peek(); //Peek the top word of the current Stack
 
@@ -160,7 +169,7 @@ void BFS(const Set<string> &dictionary, Queue<Stack<string>> &solve, Queue<Stack
             newWord.replace(c, 1, 1, char(a));
             //replacing the c-th character of the word to char(a) (by ascii)
 
-            if(dictionary.contains(newWord) && !myLevel.contains(newWord)) {
+            if(dict.contains(newWord) && !myLevel.contains(newWord)) {
                 //new word is a valid word
                 if (level.contains(newWord)) {
                     //shortest ladder found
@@ -182,7 +191,7 @@ void BFS(const Set<string> &dictionary, Queue<Stack<string>> &solve, Queue<Stack
             newWord.insert(c, 1, char(a));
             //inserting at the c-th character of the word, char(a) (by ascii)
 
-            if(dictionary.contains(newWord) && !myLevel.contains(newWord)) {
+            if(dict.contains(newWord) && !myLevel.contains(newWord)) {
                 //new word is a valid word
                 if (level.contains(newWord)) {
                     //shortest ladder found
@@ -202,7 +211,7 @@ void BFS(const Set<string> &dictionary, Queue<Stack<string>> &solve, Queue<Stack
         newWord.erase(c, 1);
         //deleting the c-th character of the word
 
-        if(dictionary.contains(newWord) && !myLevel.contains(newWord)) {
+        if(dict.contains(newWord) && !myLevel.contains(newWord)) {
             //new word is a valid word
             if (level.contains(newWord)) {
                 //shortest ladder found
@@ -216,7 +225,8 @@ void BFS(const Set<string> &dictionary, Queue<Stack<string>> &solve, Queue<Stack
     }
 }
 
-string game(const Set<string> &dic, const string &from, const string &to) {
+string game(const string &from, const string &to) {
+    //The function that does the main calculations
 
     Queue<Stack<string>> solveFrom; //Stores the information for the word 1 side
     Queue<Stack<string>> solveTo; //Stores the information for the word 2 side
@@ -228,21 +238,21 @@ string game(const Set<string> &dic, const string &from, const string &to) {
 
     while(!solveFrom.isEmpty() && !solveTo.isEmpty()){
         //Search from word 1 side
-        BFS(dic, solveFrom, solveTo, fromLevel, toLevel, ladder, true);
+        BFS(solveFrom, solveTo, fromLevel, toLevel, ladder, true);
         if(ladder != "") return ladder; //Ladder found
 
         //Search from word 2 side
-        BFS(dic, solveTo, solveFrom, toLevel, fromLevel, ladder, false);
+        BFS(solveTo, solveFrom, toLevel, fromLevel, ladder, false);
         if(ladder != "") return ladder; //Ladder found
     }
     return "NA";
 }
 
-void interact() {
+void file_read() {
+    //Read dictionary file
+
     ifstream infile;
     promptUserForFile(infile, "Dictionary file name: ");
-
-    Set<string> dict;
 
     string dictWord;
     while(getline(infile, dictWord)) {
@@ -250,6 +260,11 @@ void interact() {
     }
 
     infile.close();
+}
+
+void interact() {
+    //For interaction. Calls the calculation function.
+
     while (1) {
         string fromWord, toWord;
         cout << endl;
@@ -262,14 +277,14 @@ void interact() {
         if (toWord == "") break;
         transform(toWord.begin(), toWord.end(), toWord.begin(), ::tolower);
 
-        if (dictCheck(dict, fromWord, toWord)) {
+        if (dictCheck(fromWord, toWord)) {
             cout << "The two words must be found in the dictionary, or one step from a dictionary word." << endl;
             continue;
         } else if (wordCheck(fromWord, toWord)) {
             cout << "The two words must be different." << endl;
             continue;
         } else {
-            string gameResult = game(dict, fromWord, toWord);
+            string gameResult = game(fromWord, toWord);
             if (gameResult == "NA") {
                 cout << "No word ladder found from " << toWord << " back to " << fromWord << "." << endl;
             } else {

@@ -19,27 +19,27 @@
 #include "console.h"
 using namespace std;
 
+Set<string> dict; //Saves all the words from the dictionary
+
 void welcomePrint();
-//Printing the welcome information
 
 bool lengthCheck(string from, string to);
-//return true if the two given words are not of the same length
 
 bool dictCheck(const Set<string> &dict, string from, string to);
-//return true if either or both words don't exist in the dictionary
 
 bool wordCheck(string from, string to);
-//return true if both words are the same
 
 string game(const Set<string> &dic, string from, string to);
-//The function that does the main calculations
+
+void file_read();
 
 void interact();
-//for interaction. Takes in inputs, calls the calculation function.
 
 int main() {
 
     welcomePrint();
+
+    file_read();
 
     interact();
 
@@ -48,24 +48,30 @@ int main() {
 }
 
 void welcomePrint() {
+    //Printing the welcome information
     cout << "Welcome to CS 106B/X Word Ladder!" << endl;
     cout << "Please give me two English words, and I will convert the" << endl;
     cout << "first into the second by modifying one letter at a time." << endl << endl;
 }
 
 bool lengthCheck(string from, string to) {
+    //return true if the two given words are not of the same length
     return from.length() != to.length();
 }
 
 bool dictCheck(const Set<string> &dict, string from, string to) {
+    //return true if either or both words don't exist in the dictionary
     return !(dict.contains(from) && dict.contains(to));
 }
 
 bool wordCheck(string from, string to) {
+    //return true if both words are the same
     return from == to;
 }
 
 string game(const Set<string> &dic, string from, string to) {
+    //The function that does the main calculations
+
     Queue<Stack<string>> solve;
     //Main Queue saving the process of BFS
 
@@ -108,11 +114,11 @@ string game(const Set<string> &dic, string from, string to) {
     return "NA";
 }
 
-void interact() {
+void file_read() {
+    //Get dictionary from the given file name
+
     ifstream infile;
     promptUserForFile(infile, "Dictionary file name: ");
-
-    Set<string> dict;
 
     string dictWord;
     while(getline(infile, dictWord)) {
@@ -120,6 +126,10 @@ void interact() {
     }
 
     infile.close();
+}
+
+void interact() {
+    //for interaction. Takes in inputs, calls the calculation function.
 
     while (1) {
         string fromWord, toWord;

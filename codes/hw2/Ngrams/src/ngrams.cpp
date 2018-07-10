@@ -24,16 +24,12 @@ Map<Queue<string>, Vector<string>> doc; //Storing the document
 int n;  //Storing the document
 
 void welcomePrint();
-//Printing welcome information
 
 string nextWord(const Vector<string> &lib);
-//returns the next word base on possibility
 
 void getInfo();
-//Get information from user. Input
 
 void interact();
-//Main functionalities
 
 int main() {
 
@@ -48,6 +44,7 @@ int main() {
 }
 
 void welcomePrint() {
+    //Printing welcome information
     cout << "Welcome to CS 106B/X Random Writer ('N-Grams')!" << endl;
     cout << "This program generates random text based on a document." << endl;
     cout << "Give me an input file and an 'N' value for groups" << endl;
@@ -60,6 +57,8 @@ string nextWord(const Vector<string> &lib) {
 }
 
 void getInfo() {
+    //Get information from user i.e. Input
+
     ifstream infile;
     promptUserForFile(infile, "Input file name?");
 
@@ -113,8 +112,10 @@ void getInfo() {
 }
 
 void interact() {
+    //Main functionalities
+
     int gen = getInteger("# of random words to generate (0 to quit):");
-    while(gen) {
+    while (gen) {
         if (!(gen > 0)) {
             cout << "Invalid input." << endl << endl;
         } else if (gen - n + 1 < 0) {
@@ -145,5 +146,4 @@ void interact() {
 
         gen = getInteger("# of random words to generate (0 to quit):");
     }
-
 }
