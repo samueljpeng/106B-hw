@@ -6,11 +6,11 @@
  * Date: 07/11/2018
  *
  * Advanced version with extra features including:
- *      allows adding or removing a letter as a step (Linve 74-90, Line 183-221)
- *      allows end-points to be one step away from dictionary words (Line 96 -> function oneStep (Line 62-92), line 279)
+ *      allows adding or removing a letter as a step (Linve 74-90, Line 194-212)
+ *      allows end-points to be one step away from dictionary words (Line 96 -> function oneStep (Line 62-92), line 268)
  *
  * This program takes a slightly different approach comparing to the given pseudocode as an optimization.
- * It uses bidirectional BFS to find the path (Line 235-243 -> function BFS (Line 155 - 222))
+ * It uses bidirectional BFS to find the path (Line 226-234 -> function BFS (Line 176 - 213) & function BFS_helper (Line 159-174))
  */
 
 #include <iostream>
@@ -156,7 +156,25 @@ void generateLadder(Queue<Stack<string>> &revSolve, Stack<string> &cur, const st
     }
 }
 
-void BFS(Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> &myLevel, Set<string> &level, string &ladder, bool side) {
+void BFS_helper(Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> &myLevel, Set<string> &level,
+                Stack<string> &current, string &ladder, string newWord, bool side) {
+    //Handling a new word
+    if(dict.contains(newWord) && !myLevel.contains(newWord)) {
+        //new word is a valid word
+        if (level.contains(newWord)) {
+            //shortest ladder found
+            generateLadder(rSolve, current, newWord, ladder, side);
+            return;
+        }
+        current.push(newWord); //Add the valid word to the current stack
+        myLevel.add(newWord); //Add the valid word to 'visited' set
+        solve.enqueue(current); //Add the stack back into the back of the queue
+        current.pop(); //Remove the word from the stack
+    }
+}
+
+void BFS(Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> &myLevel,
+         Set<string> &level, string &ladder, bool side) {
     //Breadth-First Search function of the given side
 
     Stack<string> current = solve.dequeue(); //Get item from Queue
@@ -169,18 +187,7 @@ void BFS(Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> 
             newWord.replace(c, 1, 1, char(a));
             //replacing the c-th character of the word to char(a) (by ascii)
 
-            if(dict.contains(newWord) && !myLevel.contains(newWord)) {
-                //new word is a valid word
-                if (level.contains(newWord)) {
-                    //shortest ladder found
-                    generateLadder(rSolve, current, newWord, ladder, side);
-                    return;
-                }
-                current.push(newWord); //Add the valid word to the current stack
-                myLevel.add(newWord); //Add the valid word to 'visited' set
-                solve.enqueue(current); //Add the stack back into the back of the queue
-                current.pop(); //Remove the word from the stack
-            }
+            BFS_helper(solve, rSolve, myLevel, level, current, ladder, newWord, side);
         }
     }
 
@@ -191,17 +198,7 @@ void BFS(Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> 
             newWord.insert(c, 1, char(a));
             //inserting at the c-th character of the word, char(a) (by ascii)
 
-            if(dict.contains(newWord) && !myLevel.contains(newWord)) {
-                //new word is a valid word
-                if (level.contains(newWord)) {
-                    //shortest ladder found
-                    generateLadder(rSolve, current, newWord, ladder, side);
-                    return;
-                }
-                current.push(newWord); //Add the valid word to the current stack
-                solve.enqueue(current); //Add the stack back into the back of the queue
-                current.pop(); //Remove the word from the stack
-            }
+            BFS_helper(solve, rSolve, myLevel, level, current, ladder, newWord, side);
         }
     }
 
@@ -211,17 +208,7 @@ void BFS(Queue<Stack<string>> &solve, Queue<Stack<string>> &rSolve, Set<string> 
         newWord.erase(c, 1);
         //deleting the c-th character of the word
 
-        if(dict.contains(newWord) && !myLevel.contains(newWord)) {
-            //new word is a valid word
-            if (level.contains(newWord)) {
-                //shortest ladder found
-                generateLadder(rSolve, current, newWord, ladder, side);
-                return;
-            }
-            current.push(newWord); //Add the valid word to the current stack
-            solve.enqueue(current); //Add the stack back into the back of the queue
-            current.pop(); //Remove the word from the stack
-        }
+        BFS_helper(solve, rSolve, myLevel, level, current, ladder, newWord, side);
     }
 }
 

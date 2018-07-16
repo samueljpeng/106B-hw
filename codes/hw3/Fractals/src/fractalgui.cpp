@@ -286,7 +286,7 @@ void FractalGUI::handleActionEvent(GActionEvent& actionEvent) {
             }
         } else {
             // pop up DiffImage tool
-            std::string filename = openFileDialog("Choose image to compare to", "output");
+            std::string filename = openFileDialog("Choose image to compare to", "..\\output");
             if (!filename.empty()) {
                 window->compareToImage(filename);
             }
