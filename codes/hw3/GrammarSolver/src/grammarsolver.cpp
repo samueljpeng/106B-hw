@@ -7,9 +7,7 @@
 #include <random>
 using namespace std;
 
-bool read = false;
 Map<string, Vector<Queue<string>>> grammar;
-Map<string, bool> bracketed;
 
 string generate(string kind) {
     Vector<Queue<string>> gen = grammar[kind];
@@ -17,11 +15,11 @@ string generate(string kind) {
     Queue<string> current = gen[rand() % gen.size()];
     while(!current.isEmpty()) {
         string item = current.dequeue();
-        if(bracketed[kind]) {
+        if(grammar[item].isEmpty()) {
+            result += item;
+        } else {
             result += generate(item);
             continue;
-        } else {
-            result += item;
         }
         result+=" ";
     }
@@ -36,32 +34,28 @@ string deBracket(string wBracket) {
 void analyzeLine(string line) {
     string section = "", name = "";
     Queue<string> current = {};
-    bool bracket;
     for(int i = 0; i < line.length(); i++) {
         if(line[i] == ':') {
             //End of class tag
             if (section != "") {
-                name = section.substr(1, section.length() - 2);
+                name = section;
                 section = "";
             }
         } else if (line[i] == ' ') {
-            current.enqueue(deBracket(section));
+            current.enqueue(section);
             section = "";
         } else if (line[i] == '|') {
-            current.enqueue(deBracket(section));
+            current.enqueue(section);
             section = "";
             grammar[name].add(current);
             current.clear();
         } else if (i == line.length() - 1) {
             section += line[i];
-            current.enqueue(deBracket(section));
+            current.enqueue(section);
             section="";
             grammar[name].add(current);
             current.clear();
         } else if (line[i] == '=') {
-            if (line[i+1]=='<') bracket = true;
-            else bracket = false;
-            bracketed[name] = bracket;
             continue;
         } else {
             section += line[i];
@@ -73,21 +67,22 @@ Vector<string> grammarGenerate(istream& input, string symbol, int times) {
 
     Vector<string> result;
 
-    if (!read) {
-        string readLine;
-        while(getline(input, readLine)) {
-            analyzeLine(readLine);
-        }
-        read = true;
+    grammar.clear();
+
+    string readLine;
+    while(getline(input, readLine)) {
+        analyzeLine(readLine);
     }
 
-    if (grammar[deBracket(symbol)].isEmpty()) {
+    cout << grammar << endl;
+
+    if (grammar[symbol].isEmpty()) {
         for(int i = 0 ; i < times ; i++) {
             result.add(symbol);
         }
     } else {
         for(int i = 0 ; i < times ; i++) {
-            result.add(generate(deBracket(symbol)));
+            result.add(generate(symbol));
         }
     }
 

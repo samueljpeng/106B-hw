@@ -15,7 +15,6 @@
 using namespace std;
 
 void drawSierpinskiTriangle(GWindow& window, double x, double y, double size, int order) {
-    // TODO: write this function
     if (order < 0 || size < 0 || x < 0 || y < 0) {
         throw "Parameters cannot be negative.";
     } else if (order == 0) {
