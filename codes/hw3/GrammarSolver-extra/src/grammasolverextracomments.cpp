@@ -192,4 +192,57 @@ Vector<string> grammarGenerate(istream& input, string symbol, int times) {
 
     return result;
 }
+
+bool bc_backup(Vector<Queue<string>> &vec, Queue<string>& process, Queue<string> &to, string comment) {
+    //if(to.isEmpty() && !vec.isEmpty()) return false;
+    if(process == to) return true;
+    sort(vec.begin(), vec.end(), [](Queue<string> &q1, Queue<string> &q2) { return q1.size() > q2.size(); });
+    for(int i = 0; i < vec.size(); i++) {
+        cout << comment << "Current vec is: " << vec << " ..." << endl;
+        cout << comment << "Current \"to\" is: " << to << " ..." << endl;
+        Queue<string> current = vec[i];
+        cout << comment << "    Processing queue = " << current << " ..." << endl;
+        cout << comment << "    i is currently " << i << ", and i is < " << vec.size() << " ..." << endl;
+        while(!current.isEmpty()) {
+            string item = current.dequeue();
+            cout << comment << "        Processing item = " << item << " ..." << endl;
+            if(grammar[item].isEmpty()) {
+                cout << comment << "            grammar[item] is Empty" << endl;
+                cout << comment << "            top of to is " << to.peek() << " ..." << endl;
+                cout << comment << "            item is "<< item << " ..." << endl;
+                if (to.peek() == item) {
+                    cout << comment << "            match ..." << endl;
+                    to.dequeue();
+                    cout << comment << "            to updated to " << to << " ..." << endl;
+                    return true;
+                } else {
+                    cout << comment << "            not match ..." << endl;
+                    continue;
+                }
+            } else {
+                cout << comment << "            grammar[item] is not Empty" << endl;
+                if(bc(grammar[item], process, to, comment + "                ")) {
+                    cout << comment << "            this return is for ..." << endl;
+                    cout << comment << "                current: " << current << endl;
+                    cout << comment << "                Vector: " << grammar[item] << endl;
+                    cout << comment << "                to: " << to << endl;
+                    if (current.isEmpty()) {
+                        cout << comment << "            previous step returned true. Returning true ..." << endl;
+                        return true;
+                    } else {
+                        cout << comment << "            previous step returned true. Continue process ..." << endl;
+                        continue;
+                    }
+                } else {
+                    cout << comment << "            this return is for ..." << endl;
+                    cout << comment << "                Vector: " << grammar[item] << endl;
+                    cout << comment << "                to: " << to << endl;
+                    cout << comment << "            previous step returned false. Break loop ..." << endl;
+                    break;
+                }
+            }
+        }
+    }
+    return false;
+}
 */
