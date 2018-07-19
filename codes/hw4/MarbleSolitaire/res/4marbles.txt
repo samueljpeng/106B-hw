@@ -1,0 +1,10 @@
+# This board has 4 marbles and is solvable.
+7
+7
+XX---XX
+XX---XX
+-------
+-OO----
+-OO----
+XX---XX
+XX---XX

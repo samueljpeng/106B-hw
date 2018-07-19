@@ -1,0 +1,10 @@
+# This board is already solved.
+7
+7
+XX---XX
+XX---XX
+-------
+---O---
+-------
+XX---XX
+XX---XX

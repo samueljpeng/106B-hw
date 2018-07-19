@@ -1,0 +1,10 @@
+# This board has 5 marbles. It cannot be solved.
+7
+7
+XX---XX
+XX---XX
+---O---
+--OOO--
+---O---
+XX---XX
+XX---XX

@@ -1,0 +1,10 @@
+# This board can be solved in just a single jump.
+7
+7
+XX---XX
+XX---XX
+-------
+--OO---
+-------
+XX---XX
+XX---XX

@@ -1,0 +1,11 @@
+# This board has marbles in an "L" shape.
+# It cannot be solved.
+7
+7
+XXOO-XX
+XXOO-XX
+--OO---
+--O-OOO
+--OOOOO
+XX---XX
+XX---XX

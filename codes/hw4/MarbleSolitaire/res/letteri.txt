@@ -1,0 +1,11 @@
+# This board has marbles in an "I" shape.
+# It can be solved.
+7
+7
+XXOO-XX
+XXOO-XX
+--OO---
+--O----
+--OO---
+XXOO-XX
+XXOO-XX
