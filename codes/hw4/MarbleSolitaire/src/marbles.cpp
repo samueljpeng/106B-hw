@@ -8,6 +8,13 @@
 using namespace std;
 
 bool solvePuzzle(Grid<Marble>& board, int marbleCount, Vector<Move>& moveHistory) {
-    // TODO: write this function
-    return false;   // this is only here so it will compile
+    if(marbleCount == 1 && board[3][3] == MARBLE_OCCUPIED) return true;
+    for(int i = 0; i < board.numRows(); i++) {
+        for(int j = 1; i < board.numCols(); i++) {
+            if(board[i][j] == MARBLE_EMPTY) {
+
+            }
+        }
+    }
+    return false;
 }

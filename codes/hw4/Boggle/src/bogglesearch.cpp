@@ -6,7 +6,19 @@
 #include "set.h"
 using namespace std;
 
+bool humanWordSearchHelper(Grid<char> &board, string word, string cur, int cRow, int cCol) {
+    if(board[cRow][cCol] != word[cur.length()]) {
+        return false;
+    } else {
+        cur += board[cRow][cCol];
+
+        cur = cur.substr(0, cur.length() - 1);
+    }
+}
+
 bool humanWordSearch(Grid<char>& board, Lexicon& dictionary, string word) {
+    if(!dictionary.contains(word)) return false;
+    else
     // TODO: write this function
     return false;   // this is only here so it will compile
 }
