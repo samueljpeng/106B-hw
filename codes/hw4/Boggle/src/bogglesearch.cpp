@@ -4,19 +4,18 @@
 #include "grid.h"
 #include "lexicon.h"
 #include "set.h"
+#include "point.h"
 using namespace std;
 
-struct point {
-  int x, y;
-};
-
-bool humanWordSearchHelper(Grid<char> &board, string word, string cur, int cRow, int cCol, Set<point> history) {
+bool humanWordSearchHelper(Grid<char> &board, string word, string cur, int cRow, int cCol, Set<Point> &history) {
     cout << "currently at cRow = " << cRow << ", cCol = " << cCol << " ..." << endl;
     if (board[cRow][cCol] != word[cur.length()]) {
         cout << "Character doesn't match, returning false ..." << endl;
         return false;
     } else {
         cur += board[cRow][cCol];
+        Point current(cRow, cCol);
+        history.add(current);
         if (word == cur) {
             cout << "Word matched, returning true ..." << endl;
             return true;
@@ -24,9 +23,8 @@ bool humanWordSearchHelper(Grid<char> &board, string word, string cur, int cRow,
         cout << "looping through neighobrs ... " << endl;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                point next =
-                if(!(i == 0 && j == 0) && !history.contains() && board.inBounds(cRow + i, cCol + j) &&
-                        humanWordSearchHelper(board, word, cur, cRow + i, cCol+ j)) return true;
+                if(!(i == 0 && j == 0) && !history.contains({cRow + i, cCol + j}) && board.inBounds(cRow + i, cCol + j) &&
+                        humanWordSearchHelper(board, word, cur, cRow + i, cCol+ j, history)) return true;
             }
         }
         cur = cur.substr(0, cur.length() - 1);
@@ -34,7 +32,7 @@ bool humanWordSearchHelper(Grid<char> &board, string word, string cur, int cRow,
     return false;
 }
 
-bool humanWordSearch(Grid<char>& board, Lexicon& dictionary, string word) {
+bool humanWordSearch(const Grid<char>& board, const Lexicon& dictionary, const string& word) {
     if (!dictionary.contains(word)) {
         cout << "Dictionary doesn't contain this word..." << endl;
         return false;
@@ -43,7 +41,8 @@ bool humanWordSearch(Grid<char>& board, Lexicon& dictionary, string word) {
         for (int i = 0; i < board.numRows(); i++) {
             for (int j = 0; j < board.numCols(); j++) {
                 cout << "Stepping in row = " << i << ", col = " << j << " ..." << endl;
-                if (humanWordSearchHelper(board, word, "", i, j, {})) return true;
+                Set<Point> process;
+                if (humanWordSearchHelper(board, word, "", i, j, process)) return true;
             }
         }
     }
