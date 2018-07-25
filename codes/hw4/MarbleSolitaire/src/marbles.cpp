@@ -7,12 +7,17 @@
 #include "marbleutil.h"
 using namespace std;
 
-bool solvePuzzle(Grid<Marble>& board, int marbleCount, Vector<Move>& moveHistory) {
-    if(marbleCount == 1 && board[3][3] == MARBLE_OCCUPIED) return true;
+bool solvePuzzle (Grid<Marble>& board, int marbleCount, Vector<Move>& moveHistory) {
+    Vector<direction> allDirections = {up, down, lef, rig};
+    if(marbleCount == 1) return true;
     for(int i = 0; i < board.numRows(); i++) {
-        for(int j = 1; i < board.numCols(); i++) {
-            if(board[i][j] == MARBLE_EMPTY) {
-
+        for(int j = 0; j < board.numCols(); j++) {
+            for(Move m : findPossibleMoves(board)) {
+                makeMove(m, board);
+                moveHistory.add(m);
+                if (solvePuzzle(board, marbleCount - 1, moveHistory)) return true;
+                moveHistory.pop_back();
+                undoMove(m, board);
             }
         }
     }

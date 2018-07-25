@@ -14,7 +14,6 @@ using namespace std;
 
 bool humanWordSearchHelper(const Grid<char> &board, const string& find, string cur,
                            int cRow, int cCol, Set<pair<int, int>> &history) {
-
     BoggleGUI::setHighlighted(cRow, cCol, true);
     usleep(100);
     if (board[cRow][cCol] != find[cur.length()]) {

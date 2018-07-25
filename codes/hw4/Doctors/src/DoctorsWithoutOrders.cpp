@@ -16,10 +16,29 @@ using namespace std;
  * @param schedule An outparameter that will be filled in with the schedule, should one exist.
  * @return Whether or not a schedule was found.
  */
+
+bool findSolution(Vector<Doctor> &doctors,
+                  Vector<Patient> &patients,
+                  Map<string, Set<string>>& schedule) {
+    if (patients.isEmpty()) return true;
+    Patient current = patients.back();
+    for (int i = 0; i < doctors.size(); i++) {
+        if(doctors[i].hoursFree >= current.hoursNeeded) {
+            doctors[i].hoursFree -= current.hoursNeeded;
+            schedule[doctors[i].name].add(current.name);
+            patients.pop_back();
+            if (findSolution(doctors, patients, schedule)) return true;
+            patients.add(current);
+            schedule[doctors[i].name].remove(current.name);
+            doctors[i].hoursFree += current.hoursNeeded;
+        }
+    }
+    return false;
+}
 bool canAllPatientsBeSeen(Vector<Doctor> &doctors,
                           Vector<Patient> &patients,
                           Map<string, Set<string>>& schedule) {
-    // [TODO: Delete these lines and implement this function!]
-    (void)(doctors, patients, schedule);
-    return false;
+    Vector<Doctor> myDoctors = doctors;
+    Vector<Patient> myPatients = patients;
+    return findSolution(myDoctors, myPatients, schedule);
 }
