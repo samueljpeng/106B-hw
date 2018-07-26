@@ -44,6 +44,7 @@ bool humanWordSearchHelper(const Grid<char> &board, const string& find, string c
 
 bool humanWordSearch(const Grid<char>& board, const Lexicon& dictionary, const string& word) {
     string myWord = toUpperCase(word);
+    BoggleGUI::clearHighlighting();
     if (!dictionary.contains(myWord) || myWord.length() < BoggleGUI::MIN_WORD_LENGTH) return false;
     //return false if word not found in dictionary or wordLength smaller than required
 
@@ -75,7 +76,6 @@ bool humanWordSearch(const Grid<char>& board, const Lexicon& dictionary, const s
                     cout << "case else";
                     BoggleGUI::scorePointsHuman(11);
                 }
-                BoggleGUI::clearHighlighting();
                 return true;
             }
 
