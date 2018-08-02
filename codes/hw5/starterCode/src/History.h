@@ -90,6 +90,8 @@ private:
         Node*       next;
     };
 
+    Node *curr;
+    Node *root;
     // TODO: add any helper functions and instance variables you need
 
 };

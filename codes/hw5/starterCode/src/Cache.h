@@ -2,6 +2,7 @@
 #define Cache_Included
 
 #include <string>
+#include "hashmap.h"
 
 /**
  * A type representing a cache. This class works similarly to the Map interface, except that
@@ -84,6 +85,11 @@ private:
         Node*       next;
     };
 
+    HashMap<std::string, Node*> hash;
+
+    Node *root;
+    Node *last;
+    int max_Size, cur_Size;
     // TODO: add any helper functions and instance variables you need
 
 };
