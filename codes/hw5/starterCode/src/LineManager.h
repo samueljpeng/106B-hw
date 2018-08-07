@@ -21,6 +21,7 @@ public:
      *
      * @param lines The lines to manage.
      */
+
     LineManager(const Vector<Line *>& lines);
 
     /**
@@ -82,6 +83,13 @@ private:
         Node* right;
     };
     
+    Node *root;
+
+    void buildTree(Node *&node, const Vector<Line *>& lines);
+    void destroyTree(Node *&node);
+    double findEstY(LineManager::Node *node, bool side) const;
+    void inRangeHelper(double lowY, double highY, Node *node, Vector<Line *> &result) const;
+    Line* lineAtHelper(double y, Node *node) const;
     // TODO: add any helper functions and instance variables you need
 };
 

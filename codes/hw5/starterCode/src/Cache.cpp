@@ -1,13 +1,12 @@
 #define CacheCPP_Included
 #include "Cache.h"
-#include "iostream"
+#include <iostream>
 
 template <typename ValueType>
 Cache<ValueType>::Cache(int maxSize) {
     root = last = nullptr;
     cur_Size = 0;
     max_Size = maxSize;
-    (void) maxSize;
 }
 
 template <typename ValueType>
@@ -28,6 +27,7 @@ void Cache<ValueType>::put(const std::string& key, const ValueType& value) {
             hash[key]->next = nullptr;
             hash[key]->prev = last;
             last->next = hash[key];
+            hash[key]->prev = last;
             last = hash[key];
             return;
         } else if (hash[key] == last) {
@@ -37,36 +37,11 @@ void Cache<ValueType>::put(const std::string& key, const ValueType& value) {
             hash[key]->next->prev = hash[key]->prev;
             hash[key]->next = nullptr;
             last->next = hash[key];
+            hash[key]->prev = last;
             last = hash[key];
             return;
         }
     }
-    /*Cache::Node *temp = root;
-    while (temp != nullptr) {
-        if (temp->key == key) {
-            if (temp == root) {
-                root = root->next;
-                root->prev = nullptr;
-                temp->next = nullptr;
-                temp->prev = last;
-                last->next = temp;
-                last = temp;
-                return;
-            } else if (temp == last) {
-                return;
-            } else {
-                temp->prev->next = temp->next;
-                temp->next->prev = temp->prev;
-                temp->next = nullptr;
-                temp->prev = last;
-                last->next = temp;
-                last = temp;
-                return;
-            }
-        }
-        temp = temp->next;
-    }
-    */
     if (cur_Size >= max_Size) {
         Cache::Node *trash = root;
         root = root->next;
@@ -84,15 +59,11 @@ void Cache<ValueType>::put(const std::string& key, const ValueType& value) {
     last = newNode;
     hash.add(key, newNode);
     cur_Size ++;
-    (void) key;
-    (void) value;
 }
 
 template <typename ValueType>
 bool Cache<ValueType>::containsKey(const std::string& key) {
     return hash.containsKey(key);
-    (void) key;
-    return false;
 }
 
 template <typename ValueType>
@@ -101,12 +72,14 @@ ValueType Cache<ValueType>::get(const std::string& key) {
         error("Key DNE!");
     } else {
         if(hash[key] == root) {
-            root = root->next;
-            root->prev = nullptr;
-            hash[key]->next = nullptr;
-            hash[key]->prev = last;
-            last->next = hash[key];
-            last = hash[key];
+            if (root != last) {
+                root = root->next;
+                root->prev = nullptr;
+                hash[key]->next = nullptr;
+                hash[key]->prev = last;
+                last->next = hash[key];
+                last = hash[key];
+            }
             return last->value;
         } else if (hash[key] == last) {
             return last->value;
@@ -120,6 +93,5 @@ ValueType Cache<ValueType>::get(const std::string& key) {
         }
     }
 
-    (void) key;
     return {};
 }

@@ -16,11 +16,8 @@ void runTestsIn(const string& name, const TestGroup& tests) {
     size_t numTests = 0;
     size_t numSuccesses = 0;
 
-    cout << "Checkpoint 4" << endl;
-
     /* Run each test. */
     for (auto testName: tests) {
-        cout << "Checkpoint 5" << endl;
         auto testCase = tests[testName];
         try {
             testCase();
@@ -70,7 +67,6 @@ void runTestsIn(const string& name, const TestGroup& tests) {
 }
 
 void testingMain() {
-    cout << "Checkpoint 3" << endl;
     runTestsIn("History",      gHistoryTests);
     runTestsIn("Cache",        gCacheTests);
     runTestsIn("LineManager",  gLineManagerTests);

@@ -2,6 +2,7 @@
 #define Autocomplete_Included
 
 #include "set.h"
+#include "map.h"
 #include <string>
 
 /**
@@ -52,6 +53,17 @@ public:
     Set<std::string> suggestionsFor(const std::string& prefix, int maxHits) const;
 
 private:
+    struct Node {
+        Map<char, Node *> letters;
+        bool endPoint;
+    };
+
+    Node *root;
+
+    void destroyTrie(Node *node);
+    void addHelper(const std::string& text, Node *node);
+    Node *getPrefixNode(std::string prefix, Node *node) const;
+    void suggestHelper(const std::string& prefix, std::string &process, int maxHits, Node *node, Set<std::string> &suggests) const;
     // TODO: add any helper functions and instance variables you need
 };
 

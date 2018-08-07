@@ -1,12 +1,12 @@
 /* Main driver program. This just glues everything together. */
 #include "Browser.h"
 #include "gevents.h"
+#include <iostream>
 using namespace std;
 
 void browserMain() {
     Browser browser;
     browser.setPage("special:welcome");
-
     /* Run the main event loop. */
     while (true) {
         /* This won't actually do anything unless the browser has been asked to repaint itself. */
