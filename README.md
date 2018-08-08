@@ -12,5 +12,5 @@ Usages of the codes outside the CS106B course abides by the MIT license. <br />
 <a href="codes/hw3">Assignment 3: Recursion</a> <br />
 <a href="codes/hw4">Assignment 4: Backtracking</a> <br />
 <a href="codes/hw5">Assignment 5: MiniBrowser</a> <br />
-<a href="codes/hw6">Assignment 6: Graphs</a>
+<a href="codes/hw6">Assignment 6: Calligraphy</a>
 
