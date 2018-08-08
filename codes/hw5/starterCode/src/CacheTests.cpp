@@ -1,3 +1,14 @@
+/*
+ * CS106B Assignment 5-B
+ * CacheTests.cpp
+ *
+ * Author: Samuel Peng & Tim Yi
+ * Date: 08/08/2018
+ *
+ * Basic feature:
+ * Tests for the type Cache.
+ */
+
 #include "CacheTests.h"
 #include "Cache.h"
 #include <chrono>
@@ -134,6 +145,42 @@ ADD_TEST("Cache should free the memory used by its cells.") {
     }
 
     expect(Counter::instances == 0);
+}
+
+ADD_TEST("Cache saves the contents correctly") {
+    Cache<int> cache(4);
+
+    cache.put("A", 1);
+    cache.put("B", 2);
+    cache.put("C", 3);
+    cache.put("D", 4);
+
+    expect(cache.get("B") == 2);
+    expect(cache.get("A") == 1);
+
+    cache.put("E", 5);
+    cache.put("F", 6);
+
+    expectError(cache.get("C"));
+    expectError(cache.get("D"));
+}
+
+ADD_TEST("Prev & Next correctly handled after re-visits") {
+    Cache<int> cache(4);
+
+    cache.put("A", 1);
+    cache.put("B", 2);
+    cache.put("C", 3);
+    cache.put("D", 4);
+
+    expect(cache.get("B") == 2);
+
+    cache.put("E", 9);
+    cache.put("F", 9);
+    cache.put("G", 9);
+
+    expect(cache.containsKey("B"));
+
 }
 
 /* TODO: Add a bunch of your own custom tests here! Use this syntax:

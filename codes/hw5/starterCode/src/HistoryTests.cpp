@@ -1,3 +1,14 @@
+/*
+ * CS106B Assignment 5-A
+ * HistoryTests.cpp
+ *
+ * Author: Samuel Peng & Tim Yi
+ * Date: 08/08/2018
+ *
+ * Basic feature:
+ * Tests for the type History.
+ */
+
 #include "HistoryTests.h"
 #include "History.h"
 using namespace std;
@@ -64,6 +75,21 @@ ADD_TEST("Browser history with a single page in it should not have next/previous
 
     expectError(h.next());
     expectError(h.previous());
+}
+
+ADD_TEST("Previous history correctly saved") {
+    History h;
+    h.goTo("A");
+    h.goTo("B");
+    expect(h.previous() == "A");
+}
+
+ADD_TEST("Next history correctly displayed") {
+    History h;
+    h.goTo("A");
+    h.goTo("B");
+    h.previous();
+    expect(h.next() == "B");
 }
 
 /* TODO: Add a bunch of your own custom tests here! Use this syntax:

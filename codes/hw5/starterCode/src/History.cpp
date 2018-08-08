@@ -1,9 +1,19 @@
+/*
+ * CS106B Assignment 5-A
+ * History.cpp
+ *
+ * Author: Samuel Peng & Tim Yi
+ * Date: 08/08/2018
+ *
+ * Basic feature:
+ * A type representing a browser history.
+ */
+
 #include "History.h"
 #include "error.h"
 using namespace std;
 
 History::History() {
-    cout << "in history\n";
     root = curr = nullptr;
 }
 
@@ -45,11 +55,14 @@ string History::previous() {
 }
 
 void History::goTo(const string& page) {
+    //Create a new Node for the newly visited page.
     History::Node *newNode = new History::Node;
     newNode->title = page;
     newNode->prev = curr;
     newNode->next = nullptr;
     if(hasNext()) {
+        //If the current node is not the last in the list
+        //Delete everything currently after the current node
         History::Node *trash = curr->next;
         while(trash != nullptr) {
             History::Node *temp = trash;

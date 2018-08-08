@@ -1,3 +1,14 @@
+/*
+ * CS106B Assignment 5-C
+ * LineManagerTests.cpp
+ *
+ * Author: Samuel Peng & Tim Yi
+ * Date: 08/08/2018
+ *
+ * Basic feature:
+ * Tests for the LineManager type.
+ */
+
 #include "LineManagerTests.h"
 #include "LineManager.h"
 #include "set.h"
@@ -196,6 +207,26 @@ ADD_TEST("Queries that overlap lines, but don't fully contain them, still find t
 
         expect(manager.linesInRange(lowY, highY) == lines.subList(i, 1));
     }
+}
+
+ADD_TEST("Returns nullptr if no line is at the given location") {
+    Vector<Line *> lines = {
+        new Line{ 0, 137 }, new Line{ 271, 314 }, new Line{ 867, 5309 }
+    };
+
+    LineManager manager(lines);
+
+    expect(manager.lineAt(200) == nullptr);
+}
+
+ADD_TEST("Return includes line if given range is at middle of the line") {
+    Vector<Line *> lines = {
+        new Line{ 0, 137 }, new Line{ 271, 314 }, new Line{ 867, 5309 }
+    };
+
+    LineManager manager(lines);
+
+    expect(manager.linesInRange(100, 300) == lines.subList(0, 2));
 }
 
 /* TODO: Add a bunch of your own custom tests here! Use this syntax:

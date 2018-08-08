@@ -1,3 +1,14 @@
+/*
+ * CS106B Assignment 5-B
+ * Cache.h
+ *
+ * Author: Samuel Peng & Tim Yi
+ * Date: 08/08/2018
+ *
+ * Basic feature:
+ * Header file for Cache.cpp.
+ */
+
 #ifndef Cache_Included
 #define Cache_Included
 

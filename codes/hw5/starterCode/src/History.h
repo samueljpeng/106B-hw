@@ -1,3 +1,14 @@
+/*
+ * CS106B Assignment 5-A
+ * History.h
+ *
+ * Author: Samuel Peng & Tim Yi
+ * Date: 08/08/2018
+ *
+ * Basic feature:
+ * Header file for History.cpp
+ */
+
 #ifndef History_Included
 #define History_Included
 

@@ -1,3 +1,14 @@
+/*
+ * CS106B Assignment 5-D
+ * AutocompleteTests.cpp
+ *
+ * Author: Samuel Peng & Tim Yi
+ * Date: 08/08/2018
+ *
+ * Basic feature:
+ * Test the Autocomplete object
+ */
+
 #include "AutocompleteTests.h"
 #include "Autocomplete.h"
 using namespace std;
@@ -116,6 +127,33 @@ ADD_TEST("Searches shouldn't fail if there aren't enough items to go around.") {
     expect(ac.suggestionsFor("A", 100000) == toInsert);
 }
 
+ADD_TEST("Check Upper & Lower case") {
+    Set<string> toInsert = {
+        "ABC", "ABS", "AN", "ASH"
+    };
+
+    Autocomplete aut;
+    for (auto word: toInsert) {
+        aut.add(word);
+    }
+    Set<string> exp = {};
+
+    expect(aut.suggestionsFor("a", 10000) == exp);
+}
+
+ADD_TEST("General Check") {
+    Set<string> toInsert = {
+        "Happy", "HASH", "Hush", "Hay", "Hail"
+    };
+
+    Autocomplete aut;
+    for (auto word: toInsert) {
+        aut.add(word);
+    }
+    Set<string> exp = {"Happy", "Hay", "Hail"};
+
+    expect(aut.suggestionsFor("Ha", 10000) == exp);
+}
 /* TODO: Add a bunch of your own custom tests here! Use this syntax:
  *
  *    ADD_TEST("Description of your test") {

@@ -1,3 +1,14 @@
+/*
+ * CS106B Assignment 5-D
+ * Autocomplete.h
+ *
+ * Author: Samuel Peng & Tim Yi
+ * Date: 08/08/2018
+ *
+ * Basic feature:
+ * Header file for Autocomplete.cpp.
+ */
+
 #ifndef Autocomplete_Included
 #define Autocomplete_Included
 

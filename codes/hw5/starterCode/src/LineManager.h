@@ -1,3 +1,14 @@
+/*
+ * CS106B Assignment 5-C
+ * LineManager.h
+ *
+ * Author: Samuel Peng & Tim Yi
+ * Date: 08/08/2018
+ *
+ * Basic feature:
+ * Header file for LineManager.cpp.
+ */
+
 #ifndef LineManager_Included
 #define LineManager_Included
 
@@ -90,7 +101,6 @@ private:
     double findEstY(LineManager::Node *node, bool side) const;
     void inRangeHelper(double lowY, double highY, Node *node, Vector<Line *> &result) const;
     Line* lineAtHelper(double y, Node *node) const;
-    // TODO: add any helper functions and instance variables you need
 };
 
 #endif
