@@ -1,0 +1,10 @@
+digraph G { 
+  0 [shape=box,penwidth=2,label="Combine Work\n(Time: 2m)"];
+  1 [shape=box,penwidth=2,label="Divide Work\n(Time: 2m)"];
+  2 [shape=box,penwidth=2,label="Handle Group A\n(Time: 2m)"];
+  3 [shape=box,penwidth=2,label="Handle Group B\n(Time: 2m)"];
+  2 -> 0 [style=bold]
+  3 -> 0 [style=bold]
+  1 -> 2 [style=bold]
+  1 -> 3 [style=bold]
+}

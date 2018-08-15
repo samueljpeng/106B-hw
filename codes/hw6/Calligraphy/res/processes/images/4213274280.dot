@@ -1,0 +1,25 @@
+digraph G { 
+  0 [shape=box,penwidth=2,label="Add Wet Ingredients\n(Time: 1m)"];
+  1 [shape=box,penwidth=2,label="Beat Egg\n(Time: 2m)"];
+  2 [shape=box,penwidth=2,label="Combine Dry Ingredients\n(Time: 1m)"];
+  3 [shape=box,penwidth=2,label="Eat Pancakes\n(Time: 10m)"];
+  4 [shape=box,penwidth=2,label="Heat Griddle\n(Time: 2m)"];
+  5 [shape=box,penwidth=2,label="Make Pancakes\n(Time: 10m)"];
+  6 [shape=box,penwidth=2,label="Measure Baking Powder\n(Time: 1m15s)"];
+  7 [shape=box,penwidth=2,label="Measure Flour\n(Time: 1m)"];
+  8 [shape=box,penwidth=2,label="Measure Salt\n(Time: 15s)"];
+  9 [shape=box,penwidth=2,label="Measure Sugar\n(Time: 30s)"];
+  10 [shape=box,penwidth=2,label="Melt Butter\n(Time: 2m)"];
+  11 [shape=box,penwidth=2,label="Oil Griddle\n(Time: 15s)"];
+  1 -> 0 [style=bold]
+  2 -> 0 [style=bold]
+  10 -> 0 [style=bold]
+  6 -> 2 [style=bold]
+  7 -> 2 [style=bold]
+  8 -> 2 [style=bold]
+  9 -> 2 [style=bold]
+  5 -> 3 [style=bold]
+  0 -> 5 [style=bold]
+  11 -> 5 [style=bold]
+  4 -> 11 [style=bold]
+}

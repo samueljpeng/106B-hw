@@ -1,0 +1,64 @@
+digraph G { 
+  0 [shape=box,penwidth=2,label="CS103\n(Time: 10w)"];
+  1 [shape=box,penwidth=2,label="CS106A\n(Time: 10w)"];
+  2 [shape=box,penwidth=2,label="CS106B\n(Time: 10w)"];
+  3 [shape=box,penwidth=2,label="CS107\n(Time: 10w)"];
+  4 [shape=box,penwidth=2,label="CS109\n(Time: 10w)"];
+  5 [shape=box,penwidth=2,label="CS110\n(Time: 10w)"];
+  6 [shape=box,penwidth=2,label="CS161\n(Time: 10w)"];
+  7 [shape=box,penwidth=2,label="Calculus\n(Time: 10w)"];
+  8 [shape=box,penwidth=2,label="Do Research!\n(Time: 30w)"];
+  9 [shape=box,penwidth=2,label="Ethics\n(Time: 10w)"];
+  10 [shape=box,penwidth=2,label="Graduate!\n(Time: 1d)"];
+  11 [shape=box,penwidth=2,label="Internship!\n(Time: 12w)"];
+  12 [shape=box,penwidth=2,label="Math 51\n(Time: 10w)"];
+  13 [shape=box,penwidth=2,label="Math Elect.\n(Time: 10w)"];
+  14 [shape=box,penwidth=2,label="Science Elect.\n(Time: 20w)"];
+  15 [shape=box,penwidth=2,label="Section Lead!\n(Time: 20w)"];
+  16 [shape=box,penwidth=2,label="Senior Project\n(Time: 10w)"];
+  17 [shape=box,penwidth=2,label="Track A\n(Time: 10w)"];
+  18 [shape=box,penwidth=2,label="Track B 1\n(Time: 10w)"];
+  19 [shape=box,penwidth=2,label="Track B 2\n(Time: 10w)"];
+  20 [shape=box,penwidth=2,label="Track C 1\n(Time: 10w)"];
+  21 [shape=box,penwidth=2,label="Track C 2\n(Time: 10w)"];
+  22 [shape=box,penwidth=2,label="Track C 3\n(Time: 10w)"];
+  2 -> 0 [style=bold]
+  1 -> 2 [style=bold]
+  2 -> 3 [style=bold]
+  0 -> 4 [style=bold]
+  2 -> 4 [style=bold]
+  12 -> 4 [style=bold]
+  3 -> 5 [style=bold]
+  0 -> 6 [style=bold]
+  2 -> 6 [style=bold]
+  4 -> 6 [style=bold]
+  0 -> 8 [style=bold]
+  3 -> 8 [style=bold]
+  2 -> 9 [style=bold]
+  5 -> 10 [style=bold]
+  6 -> 10 [style=bold]
+  9 -> 10 [style=bold]
+  13 -> 10 [style=bold]
+  14 -> 10 [style=bold]
+  16 -> 10 [style=bold]
+  20 -> 10 [style=bold]
+  21 -> 10 [style=bold]
+  22 -> 10 [style=bold]
+  2 -> 11 [style=bold]
+  7 -> 12 [style=bold]
+  12 -> 13 [style=bold]
+  7 -> 14 [style=bold]
+  2 -> 15 [style=bold]
+  5 -> 16 [style=bold]
+  6 -> 16 [style=bold]
+  3 -> 17 [style=bold]
+  4 -> 17 [style=bold]
+  17 -> 18 [style=bold]
+  17 -> 19 [style=bold]
+  18 -> 20 [style=bold]
+  19 -> 20 [style=bold]
+  18 -> 21 [style=bold]
+  19 -> 21 [style=bold]
+  18 -> 22 [style=bold]
+  19 -> 22 [style=bold]
+}

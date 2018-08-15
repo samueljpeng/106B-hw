@@ -1,0 +1,7 @@
+Doctor A: Cardiology, Radiology
+Doctor B: Cardiology, Internal Medicine
+Doctor C: Surgery, Cardiology, Internal Medicine
+
+Patient 1: Surgery, Internal Medicine
+Patient 2: Surgery, Cardiology
+Patient 3: Cardiology

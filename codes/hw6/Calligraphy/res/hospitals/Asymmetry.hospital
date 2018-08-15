@@ -1,0 +1,26 @@
+# Asymmetry between doctors and patients.
+
+Doctor A: Neurology, Gastroenterology
+Doctor B: Cardiology, Oncology
+Doctor C: Neurology, Ophthalmology
+Doctor D: Radiology, Cardiology
+Doctor E: Internal Medicine, Neurology
+Doctor F: Cardiology
+Doctor G: Hematology, Oncology
+
+Patient 1:  Neurology
+Patient 2:  Neurology
+Patient 3:  Neurology
+Patient 4:  Radiology
+Patient 5:  Cardiology
+Patient 6:  Cardiology
+Patient 7:  Cardiology
+Patient 8:  Nephrology
+Patient 9:  Gastroenterology
+Patient 10: Ophthalmology
+Patient 11: Ophthalmology
+Patient 12: Ophthalmology
+Patient 13: Ophthalmology
+Patient 14: Internal Medicine
+Patient 15: Hematology
+Patient 16: Oncology

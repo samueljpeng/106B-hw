@@ -1,0 +1,17 @@
+digraph G { 
+  0 [shape=box,penwidth=2,label="Create Group A\n(Time: 2h)"];
+  1 [shape=box,penwidth=2,label="Create Group B\n(Time: 2h)"];
+  2 [shape=box,penwidth=2,label="Finalize Group A\n(Time: 2h)"];
+  3 [shape=box,penwidth=2,label="Finalize Group B\n(Time: 2h)"];
+  4 [shape=box,penwidth=2,label="Handle A - B\n(Time: 2h)"];
+  5 [shape=box,penwidth=2,label="Handle B - A\n(Time: 2h)"];
+  6 [shape=box,penwidth=2,label="Handle Intersection\n(Time: 2h)"];
+  4 -> 2 [style=bold]
+  6 -> 2 [style=bold]
+  5 -> 3 [style=bold]
+  6 -> 3 [style=bold]
+  0 -> 4 [style=bold]
+  1 -> 5 [style=bold]
+  0 -> 6 [style=bold]
+  1 -> 6 [style=bold]
+}

@@ -1,0 +1,24 @@
+digraph G { 
+  0 [shape=box,penwidth=2,label="A1\n(Time: 1m)"];
+  1 [shape=box,penwidth=2,label="A2\n(Time: 1m)"];
+  2 [shape=box,penwidth=2,label="A3\n(Time: 1m)"];
+  3 [shape=box,penwidth=2,label="A4\n(Time: 1m)"];
+  4 [shape=box,penwidth=2,label="B1\n(Time: 2m)"];
+  5 [shape=box,penwidth=2,label="B2\n(Time: 2m)"];
+  6 [shape=box,penwidth=2,label="B3\n(Time: 2m)"];
+  7 [shape=box,penwidth=2,label="C1\n(Time: 1m)"];
+  8 [shape=box,penwidth=2,label="C2\n(Time: 1m)"];
+  9 [shape=box,penwidth=2,label="C3\n(Time: 1m)"];
+  4 -> 1 [style=bold]
+  7 -> 1 [style=bold]
+  5 -> 2 [style=bold]
+  8 -> 2 [style=bold]
+  6 -> 3 [style=bold]
+  9 -> 3 [style=bold]
+  0 -> 4 [style=bold]
+  1 -> 5 [style=bold]
+  2 -> 6 [style=bold]
+  0 -> 7 [style=bold]
+  1 -> 8 [style=bold]
+  2 -> 9 [style=bold]
+}

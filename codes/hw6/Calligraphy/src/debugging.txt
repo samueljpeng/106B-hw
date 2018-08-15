@@ -1,0 +1,3 @@
+While doing optimizer functions, we thought we did everything correctly but the tests wouldn't pass. So we start looking at the documentation and our code again.
+We figured out there's something wrong with the graph, and later realized that the nodes in the graph are not necessarily connected with each other, i.e. there might be multiple clusters.
+Then we alternated our code to deal with this situation for multiple clusters, and added variables to check if there's only one longest chain, and the tests passed.
