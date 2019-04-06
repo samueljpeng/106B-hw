@@ -1,5 +1,6 @@
 # Homework Codes for Stanford CS106B Summer 2018
-Created by <a href="mailto:samuelpeng1@gmail.com">Samuel Joel Peng</a>
+Created by <a href="mailto:samuelpeng@berkeley.edu">Samuel Peng</a>
+Under the Anti 996 [![996.ICU](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) and Apache License
 ## Honor Code
 The contents of this repository strictly abides by the <i>Stanford Honor Code</i>. <br />
 Current CS106B students should <b>NOT</b> look at any of the codes <b>AT ALL</b>. <br />
